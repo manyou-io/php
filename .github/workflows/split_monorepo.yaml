@@ -1,0 +1,76 @@
+name: Split Monorepo
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+jobs:
+  packages_split:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # define package to repository map
+        package:
+          - local_path: BingHomepage
+            split_repository: bing-homepage
+          - local_path: LeanStorage
+            split_repository: leancloud
+          - local_path: Mango
+            split_repository: mango
+          - local_path: PromiseHttpClient
+            split_repository: promise-http-client
+          - local_path: RemoveDataCollectorBundle
+            split_repository: remove-data-collector-bundle
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # no tag
+      - if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: "symplify/monorepo-split-github-action@2.1"
+        with:
+          branch: main
+
+          # ↓ split "src/<local_path>" directory
+          package_directory: "src/${{ matrix.package.local_path }}"
+
+          # ↓ into "https://github.com/manyou-io/<split_repository>" repository
+          repository_organization: "manyou-io"
+          repository_name: "${{ matrix.package.split_repository }}"
+
+          # [optional, with "github.com" as default]
+          # repository_host: github.com
+
+          # ↓ the user signed under the split commit
+          user_name: "Brent, Bohan Yang"
+          user_email: "brent@manyou.io"
+
+      # with tag
+      - if: "startsWith(github.ref, 'refs/tags/')"
+        uses: "symplify/monorepo-split-github-action@2.1"
+        with:
+          branch: main
+
+          tag: ${GITHUB_REF#refs/tags/}
+
+          # ↓ split "src/<local_path>" directory
+          package_directory: "src/${{ matrix.package.local_path }}"
+
+          # ↓ into "https://github.com/manyou-io/<split_repository>" repository
+          repository_organization: "manyou-io"
+          repository_name: "${{ matrix.package.split_repository }}"
+
+          # [optional, with "github.com" as default]
+          repository_host: github.com
+
+          # ↓ the user signed under the split commit
+          user_name: "Brent, Bohan Yang"
+          user_email: "brent@manyou.io"
