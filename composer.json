@@ -53,5 +53,6 @@
         "manyou/promise-http-client": "self.version",
         "manyou/remove-data-collector-bundle": "self.version"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
