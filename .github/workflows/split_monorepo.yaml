@@ -29,6 +29,10 @@ jobs:
             split_repository: promise-http-client
           - local_path: RemoveDataCollectorBundle
             split_repository: remove-data-collector-bundle
+          - local_path: WorkermanSymfonyRuntime
+            split_repository: workerman-symfony-runtime
+          - local_path: Aria2
+            split_repository: aria2
 
     steps:
       - uses: actions/checkout@v2
