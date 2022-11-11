@@ -2,17 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Mango\Security;
+namespace Manyou\Mango\Security;
 
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Ulid;
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public function __construct(
+        private Ulid $id,
         private string $username,
-        private ?string $password,
+        private ?string $password = null,
     ) {
+    }
+
+    public function getId(): Ulid
+    {
+        return $this->id;
     }
 
     public function getPassword(): ?string
@@ -30,8 +37,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = null;
     }
 
+    public function getUsername(): string
+    {   
+        return $this->username;
+    }
+
     public function getUserIdentifier(): string
     {
-        return $this->password;
+        return $this->username;
     }
 }
