@@ -13,6 +13,7 @@ use Manyou\Mango\Operation\Doctrine\TableProvider\OperationsTable;
 use Manyou\Mango\Operation\Messenger\Middleware\OperationMiddware;
 use Manyou\Mango\Operation\Monolog\OperationLogHandler;
 use Manyou\Mango\Operation\Repository\OperationRepository;
+use Manyou\Mango\Security\Doctrine\TableProvider\UsersTable;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Level;
 use Monolog\Processor\PsrLogMessageProcessor;
@@ -29,6 +30,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(Oci8InitializeSession::class);
     $services->set(OperationsTable::class);
     $services->set(OperationLogsTable::class);
+    $services->set(UsersTable::class);
     $services->set(OperationMiddware::class);
     $services->set(OperationRepository::class)->public();
 
