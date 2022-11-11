@@ -41,16 +41,16 @@
     },
     "autoload": {
         "exclude-from-classmap": [
-            "src/PromiseHttpClient/Tests/"
+            "PromiseHttpClient/Tests/"
         ],
         "psr-4": {
-            "Manyou\\Aria2\\": "src/Aria2/",
-            "Manyou\\BingHomepage\\": "src/BingHomepage/",
-            "Manyou\\LeanStorage\\": "src/LeanStorage/",
-            "Manyou\\Mango\\": "src/Mango/",
-            "Manyou\\PromiseHttpClient\\": "src/PromiseHttpClient/",
-            "Manyou\\RemoveDataCollectorBundle\\": "src/RemoveDataCollectorBundle/",
-            "Manyou\\WorkermanSymfonyRuntime\\": "src/WorkermanSymfonyRuntime/"
+            "Manyou\\Aria2\\": "Aria2/",
+            "Manyou\\BingHomepage\\": "BingHomepage/",
+            "Manyou\\LeanStorage\\": "LeanStorage/",
+            "Manyou\\Mango\\": "Mango/",
+            "Manyou\\PromiseHttpClient\\": "PromiseHttpClient/",
+            "Manyou\\RemoveDataCollectorBundle\\": "RemoveDataCollectorBundle/",
+            "Manyou\\WorkermanSymfonyRuntime\\": "WorkermanSymfonyRuntime/"
         }
     },
     "require-dev": {
