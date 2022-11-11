@@ -43,8 +43,8 @@ jobs:
         with:
           branch: main
 
-          # ↓ split "src/<local_path>" directory
-          package_directory: "src/${{ matrix.package.local_path }}"
+          # ↓ split "<local_path>" directory
+          package_directory: "${{ matrix.package.local_path }}"
 
           # ↓ into "https://github.com/manyou-io/<split_repository>" repository
           repository_organization: "manyou-io"
@@ -65,8 +65,8 @@ jobs:
 
           tag: ${GITHUB_REF#refs/tags/}
 
-          # ↓ split "src/<local_path>" directory
-          package_directory: "src/${{ matrix.package.local_path }}"
+          # ↓ split "<local_path>" directory
+          package_directory: "${{ matrix.package.local_path }}"
 
           # ↓ into "https://github.com/manyou-io/<split_repository>" repository
           repository_organization: "manyou-io"
