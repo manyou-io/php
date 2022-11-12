@@ -4,7 +4,6 @@
     "type": "library",
     "require": {
         "php": ">=8.1",
-        "ext-mongodb": "*",
         "symfony/http-client-contracts": "^3.0",
         "symfony/http-client-implementation": "^3.0",
         "guzzlehttp/promises": "^1.4",

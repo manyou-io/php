@@ -6,8 +6,8 @@ namespace Manyou\BingHomepage\Parser;
 
 use InvalidArgumentException;
 use Manyou\BingHomepage\Image;
+use Manyou\BingHomepage\ObjectId;
 use Manyou\BingHomepage\Record;
-use MongoDB\BSON\ObjectId;
 
 use function preg_match;
 use function preg_replace;
@@ -39,7 +39,7 @@ class MediaContentParser implements ParserInterface
         [$urlbase, $imageName] = Utils::parseUrlBase($data['ImageContent']['Image']['Url']);
 
         $image = new Image(
-            id: (string) (new ObjectId()),
+            id: ObjectId::create(),
             name: $imageName,
             debutOn: $date,
             urlbase: $urlBasePrefix . $urlbase,
@@ -51,7 +51,7 @@ class MediaContentParser implements ParserInterface
         $quickfact = $data['ImageContent']['QuickFact']['MainText'];
 
         return new Record(
-            id: (string) (new ObjectId()),
+            id: ObjectId::create(),
             image: $image,
             date: $date,
             market: $market,
