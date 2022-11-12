@@ -15,7 +15,6 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/migrations": "^3.2",
-        "ext-mongodb": "*",
         "guzzlehttp/promises": "^1.4",
         "monolog/monolog": "^3.0",
         "nyholm/psr7": "^1.5",
