@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Enum;
+namespace Manyou\Mango\Billing\Enum;
 
 enum Currency: string
 {

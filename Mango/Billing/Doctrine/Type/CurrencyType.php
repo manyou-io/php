@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Manyou\Mango\Billing\Doctrine\Type;
 
+use Manyou\Mango\Billing\Enum\Currency;
 use Manyou\Mango\Doctrine\Type\BackedTinyIntEnum;
 use Manyou\Mango\Doctrine\Type\TinyIntEnumType;
-use Manyou\Mango\Enum\Currency;
 
 class CurrencyType extends TinyIntEnumType
 {
