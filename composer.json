@@ -40,16 +40,17 @@
     },
     "autoload": {
         "exclude-from-classmap": [
-            "PromiseHttpClient/Tests/"
+            "src/Mango/Tests/",
+            "src/PromiseHttpClient/Tests/"
         ],
         "psr-4": {
-            "Manyou\\Aria2\\": "Aria2/",
-            "Manyou\\BingHomepage\\": "BingHomepage/",
-            "Manyou\\LeanStorage\\": "LeanStorage/",
-            "Manyou\\Mango\\": "Mango/",
-            "Manyou\\PromiseHttpClient\\": "PromiseHttpClient/",
-            "Manyou\\RemoveDataCollectorBundle\\": "RemoveDataCollectorBundle/",
-            "Manyou\\WorkermanSymfonyRuntime\\": "WorkermanSymfonyRuntime/"
+            "Manyou\\Aria2\\": "src/Aria2/",
+            "Manyou\\BingHomepage\\": "src/BingHomepage/",
+            "Manyou\\LeanStorage\\": "src/LeanStorage/",
+            "Manyou\\Mango\\": "src/Mango/",
+            "Manyou\\PromiseHttpClient\\": "src/PromiseHttpClient/",
+            "Manyou\\RemoveDataCollectorBundle\\": "src/RemoveDataCollectorBundle/",
+            "Manyou\\WorkermanSymfonyRuntime\\": "src/WorkermanSymfonyRuntime/"
         }
     },
     "require-dev": {
@@ -57,8 +58,10 @@
         "doctrine/coding-standard": "^10.0",
         "slevomat/coding-standard": "^8.6",
         "squizlabs/php_codesniffer": "^3.7",
+        "symfony/dotenv": "^6.1",
         "symfony/phpunit-bridge": "^6.1",
         "symfony/process": "^6.1",
+        "symfony/yaml": "^6.1",
         "symplify/monorepo-builder": "^11.1"
     },
     "replace": {
