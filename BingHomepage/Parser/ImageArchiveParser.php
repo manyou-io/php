@@ -6,8 +6,8 @@ namespace Manyou\BingHomepage\Parser;
 
 use InvalidArgumentException;
 use Manyou\BingHomepage\Image;
+use Manyou\BingHomepage\ObjectId;
 use Manyou\BingHomepage\Record;
-use MongoDB\BSON\ObjectId;
 
 use function array_shift;
 use function preg_match;
@@ -47,7 +47,7 @@ class ImageArchiveParser implements ParserInterface
         [$title, $copyright] = self::parseCopyright($data['copyright']);
 
         $image = new Image(
-            id: (string) (new ObjectId()),
+            id: ObjectId::create(),
             name: $imageName,
             debutOn: $date,
             urlbase: $urlBasePrefix . $urlbase,
@@ -57,7 +57,7 @@ class ImageArchiveParser implements ParserInterface
         );
 
         return new Record(
-            id: (string) (new ObjectId()),
+            id: ObjectId::create(),
             image: $image,
             date: $date,
             market: $market,
