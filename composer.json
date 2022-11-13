@@ -57,6 +57,8 @@
         "doctrine/coding-standard": "^10.0",
         "slevomat/coding-standard": "^8.6",
         "squizlabs/php_codesniffer": "^3.7",
+        "symfony/phpunit-bridge": "^6.1",
+        "symfony/process": "^6.1",
         "symplify/monorepo-builder": "^11.1"
     },
     "replace": {

@@ -1,5 +1,8 @@
 {
     "terminal.integrated.allowChords": false,
+    "intelephense.environment.includePaths": [
+        "vendor/bin/.phpunit/phpunit/vendor"
+    ],
     "files.insertFinalNewline": true,
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features",
