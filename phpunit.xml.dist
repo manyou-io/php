@@ -10,7 +10,7 @@
 >
     <testsuites>
         <testsuite name="Test Suite">
-            <directory>./Tests/</directory>
+            <directory>./PromiseHttpClient/Tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
