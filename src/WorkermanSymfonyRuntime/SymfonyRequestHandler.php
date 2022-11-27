@@ -28,7 +28,9 @@ class SymfonyRequestHandler implements RequestHandlerInterface
         $response   = $this->httpMessageFactory->createResponse($sfResponse);
 
         if ($this->kernel instanceof TerminableInterface) {
-            $this->kernel->terminate($sfRequest, $sfResponse);
+            \Workerman\Timer::add(1, function () use ($sfRequest, $sfResponse) {
+                $this->kernel->terminate($sfRequest, $sfResponse);
+            }, persistent: false);
         }
 
         return $response;
