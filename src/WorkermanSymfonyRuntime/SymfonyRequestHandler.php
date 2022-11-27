@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 
@@ -24,7 +25,14 @@ class SymfonyRequestHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $sfRequest  = $this->httpFoundationFactory->createRequest($request);
-        $sfResponse = $this->kernel->handle($sfRequest);
+
+        try {
+            $sfResponse = $this->kernel->handle($sfRequest);
+        } catch (\Throwable $exception) {
+            $fe = FlattenException::createFromThrowable($exception);
+            $sfResponse = new \Symfony\Component\HttpFoundation\Response($fe->getAsString());
+        }
+
         $response   = $this->httpMessageFactory->createResponse($sfResponse);
 
         if ($this->kernel instanceof TerminableInterface) {
