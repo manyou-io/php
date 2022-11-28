@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Manyou\BingHomepage\Parser;
 
-use InvalidArgumentException;
 use Manyou\BingHomepage\Image;
 use Manyou\BingHomepage\ObjectId;
 use Manyou\BingHomepage\Record;
+use RuntimeException;
 
 use function preg_match;
 use function preg_replace;
@@ -26,7 +26,7 @@ class MediaContentParser implements ParserInterface
         $matches = [];
 
         if (preg_match($regex, $copyright, $matches) !== 1) {
-            throw new InvalidArgumentException("Failed to parse copyright string ${copyright}");
+            throw new RuntimeException("Failed to parse copyright string ${copyright}");
         }
 
         return $matches[1];
@@ -38,12 +38,23 @@ class MediaContentParser implements ParserInterface
 
         [$urlbase, $imageName] = Utils::parseUrlBase($data['ImageContent']['Image']['Url']);
 
+        $title = $data['ImageContent']['Title'];
+
+        try {
+            $copyright = self::parseCopyright($data['ImageContent']['Copyright']);
+        } catch (RuntimeException) {
+        }
+
+        if (! isset($copyright)) {
+            [$title, $copyright] = ImageArchiveParser::parseCopyright($title);
+        }
+
         $image = new Image(
             id: ObjectId::create(),
             name: $imageName,
             debutOn: $date,
             urlbase: $urlBasePrefix . $urlbase,
-            copyright: self::parseCopyright($data['ImageContent']['Copyright']),
+            copyright: $copyright,
             downloadable: $data['ImageContent']['Image']['Downloadable'],
             video: $data['VideoContent'],
         );
@@ -55,7 +66,7 @@ class MediaContentParser implements ParserInterface
             image: $image,
             date: $date,
             market: $market,
-            title: $data['ImageContent']['Title'],
+            title: $title,
             keyword: Utils::extractKeyword($data['ImageContent']['BackstageUrl']),
             headline: $data['ImageContent']['Headline'],
             description: $data['ImageContent']['Description'],

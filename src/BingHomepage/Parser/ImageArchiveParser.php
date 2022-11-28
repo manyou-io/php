@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Manyou\BingHomepage\Parser;
 
-use InvalidArgumentException;
+use RuntimeException;
 use Manyou\BingHomepage\Image;
 use Manyou\BingHomepage\ObjectId;
 use Manyou\BingHomepage\Record;
@@ -30,7 +30,7 @@ class ImageArchiveParser implements ParserInterface
         $matches = [];
 
         if (preg_match($regex, $copyright, $matches) !== 1) {
-            throw new InvalidArgumentException("Failed to parse copyright string ${copyright}");
+            throw new RuntimeException("Failed to parse copyright string ${copyright}");
         }
 
         array_shift($matches);
