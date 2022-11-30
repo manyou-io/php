@@ -56,6 +56,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg(HttpKernelInterface::class, service('kernel'));
 
     $services->set(OnMessageInterface::class, OnMessage::class)
-        ->arg(RequestHandlerInterface::class, SymfonyRequestHandler::class)
+        ->arg(RequestHandlerInterface::class, service(SymfonyRequestHandler::class))
         ->public();
+
+    
 };
