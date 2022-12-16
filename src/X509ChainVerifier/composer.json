@@ -1,0 +1,35 @@
+{
+    "name": "manyou/x509-chain-verifier",
+    "type": "library",
+    "description": "X.509 Chain Verifier",
+    "keywords": ["x509", "openssl", "x5c", "apple", "jwt"],
+    "homepage": "https://github.com/manyou-io/x509-chain-verifier",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brent, Bohan Yang",
+            "email": "brent@manyou.io"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "thecodingmachine/safe": "^2.4"
+    },
+    "require-dev": {
+        "lcobucci/jwt": "^4.0"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.1-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Manyou\\X509ChainVerifier\\": ""
+        },
+        "exclude-from-classmap": [
+          "/Tests/"
+        ]
+    }
+}
