@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Manyou\BingHomepage\Parser;
 
-use RuntimeException;
+use DateTimeImmutable;
+use DateTimeZone;
 use Manyou\BingHomepage\Image;
 use Manyou\BingHomepage\ObjectId;
 use Manyou\BingHomepage\Record;
+use RuntimeException;
 
 use function array_shift;
 use function preg_match;
@@ -40,7 +42,8 @@ class ImageArchiveParser implements ParserInterface
 
     public function parse(array $data, string $market, string $urlBasePrefix): Record
     {
-        $date = Utils::parseFullStartDate($data['fullstartdate'], 'YmdHi');
+        $date    = Utils::parseFullStartDate($data['fullstartdate'], 'YmdHi');
+        $debutOn = DateTimeImmutable::createFromFormat('!Ymd', $date->format('Ymd'), new DateTimeZone('UTC'));
 
         [$urlbase, $imageName] = Utils::parseUrlBase($data['urlbase']);
 
@@ -49,7 +52,7 @@ class ImageArchiveParser implements ParserInterface
         $image = new Image(
             id: ObjectId::create(),
             name: $imageName,
-            debutOn: $date,
+            debutOn: $debutOn,
             urlbase: $urlBasePrefix . $urlbase,
             copyright: $copyright,
             downloadable: $data['wp'],

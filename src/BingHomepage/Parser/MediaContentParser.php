@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Manyou\BingHomepage\Parser;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Manyou\BingHomepage\Image;
 use Manyou\BingHomepage\ObjectId;
 use Manyou\BingHomepage\Record;
@@ -34,7 +36,8 @@ class MediaContentParser implements ParserInterface
 
     public function parse(array $data, string $market, string $urlBasePrefix): Record
     {
-        $date = Utils::parseFullStartDate($data['Ssd'], 'Ymd_Hi');
+        $date    = Utils::parseFullStartDate($data['Ssd'], 'Ymd_Hi');
+        $debutOn = DateTimeImmutable::createFromFormat('!Ymd', $date->format('Ymd'), new DateTimeZone('UTC'));
 
         [$urlbase, $imageName] = Utils::parseUrlBase($data['ImageContent']['Image']['Url']);
 
@@ -52,7 +55,7 @@ class MediaContentParser implements ParserInterface
         $image = new Image(
             id: ObjectId::create(),
             name: $imageName,
-            debutOn: $date,
+            debutOn: $debutOn,
             urlbase: $urlBasePrefix . $urlbase,
             copyright: $copyright,
             downloadable: $data['ImageContent']['Image']['Downloadable'],
