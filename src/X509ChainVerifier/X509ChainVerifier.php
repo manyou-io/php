@@ -31,6 +31,8 @@ class X509ChainVerifier
 
     private array $trustedFingerprints;
 
+    private array $cached = [];
+
     public function __construct(array $trustedFingerprints)
     {
         if ($trustedFingerprints === []) {
@@ -58,17 +60,30 @@ class X509ChainVerifier
         return isset($this->trustedFingerprints[$fingerprint]);
     }
 
+    private function cache(string $base64Der, string $exported): string
+    {
+        $cached[$base64Der] = $exported;
+
+        return $exported;
+    }
+
     public function verify(array $chain): string
     {
         if (! isset($chain[0])) {
             throw new RuntimeException('No certificate chain available.');
         }
 
-        $leaf = self::readCertificate($chain[0]);
+        $base64Der = $chain[0];
+
+        if (isset($this->cached[$base64Der])) {
+            return $this->cached[$base64Der];
+        }
+
+        $leaf = self::readCertificate($base64Der);
 
         if (! isset($chain[1])) {
             // There is only one certificate in the chain
-            return $this->verifyOne($leaf);
+            return $this->cache($base64Der, $this->verifyOne($leaf));
         }
 
         array_shift($chain);
@@ -83,7 +98,7 @@ class X509ChainVerifier
             if ($this->isTrusted($issuer)) {
                 openssl_x509_export($leaf, $exported);
 
-                return $exported;
+                return $this->cache($base64Der, $exported);
             }
 
             $current = $issuer;

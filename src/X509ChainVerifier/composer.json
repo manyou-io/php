@@ -15,6 +15,9 @@
         "php": ">=8.1",
         "thecodingmachine/safe": "^2.4"
     },
+    "require-dev": {
+        "lcobucci/jwt": "^4.0"
+    },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
