@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Manyou\Mango\Doctrine\Type;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -14,7 +14,9 @@ use InvalidArgumentException;
 use Symfony\Component\Uid\AbstractUid;
 
 use function bin2hex;
+use function is_resource;
 use function is_string;
+use function stream_get_contents;
 
 abstract class AbstractUidType extends Type
 {
@@ -25,6 +27,7 @@ abstract class AbstractUidType extends Type
     {
         return match (true) {
             $platform instanceof PostgreSQLPlatform => 'UUID',
+            $platform instanceof MariaDBPlatform => 'UUID',
             default => $platform->getBinaryTypeDeclarationSQL([
                 'length' => '16',
                 'fixed' => true,
@@ -36,6 +39,10 @@ abstract class AbstractUidType extends Type
     {
         if ($value instanceof AbstractUid || null === $value) {
             return $value;
+        }
+
+        if (is_resource($value)) {
+            $value = stream_get_contents($value, -1, 0);
         }
 
         if (! is_string($value)) {
@@ -55,8 +62,9 @@ abstract class AbstractUidType extends Type
 
         return match (true) {
             $value === null => null,
-            $platform instanceof OraclePlatform => bin2hex($value->toBinary()),
             $platform instanceof PostgreSQLPlatform => $value->toRfc4122(),
+            $platform instanceof MariaDBPlatform => $value->toRfc4122(),
+            $platform instanceof OraclePlatform => bin2hex($value->toBinary()),
             default => $value->toBinary(),
         };
     }
@@ -89,10 +97,5 @@ abstract class AbstractUidType extends Type
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
-    }
-
-    public function getBindingType(): int
-    {
-        return ParameterType::STRING;
     }
 }
