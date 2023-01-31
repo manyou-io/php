@@ -11,7 +11,9 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Provider\SchemaProvider as SchemaProviderInterface;
 use InvalidArgumentException;
 use Manyou\Mango\Doctrine\Contract\TableProvider;
+use PDOException;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Throwable;
 
 use function array_merge;
 use function is_string;
@@ -38,7 +40,20 @@ class SchemaProvider implements SchemaProviderInterface
 
     public function transactional(Closure $func)
     {
-        return $this->connection->transactional($func);
+        $this->connection->beginTransaction();
+        try {
+            $res = $func($this);
+            $this->connection->commit();
+
+            return $res;
+        } catch (Throwable $e) {
+            try {
+                $this->connection->rollBack();
+            } catch (PDOException) {
+            }
+
+            throw $e;
+        }
     }
 
     public function toSql(): array
