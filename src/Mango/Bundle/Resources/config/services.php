@@ -17,6 +17,8 @@ use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Level;
 use Monolog\Processor\PsrLogMessageProcessor;
 
+use function dirname;
+
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
@@ -24,6 +26,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->defaults()
         ->autowire()
         ->autoconfigure();
+
+    $services->load('Manyou\\Mango\\', dirname(__DIR__, 3) . '/')
+        ->exclude(dirname(__DIR__, 3) . '/{Bundle,Tests}');
 
     $services->set(SchemaProvider::class)->public();
     $services->set(Oci8InitializeSession::class);

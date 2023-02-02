@@ -19,6 +19,7 @@ use ErrorException;
 use Generator;
 use InvalidArgumentException;
 use LogicException;
+use Manyou\Mango\Doctrine\Exception\EmptyResultSet;
 use Manyou\Mango\Doctrine\Exception\RowNumUnmatched;
 use RuntimeException;
 
@@ -613,9 +614,13 @@ class Query
 
     public function fetchOne(): mixed
     {
-        $value = $this->getQueryResult()->fetchOne();
+        $values = $this->getQueryResult()->fetchFirstColumn();
 
-        return $value === false ? null : $this->convertResultToPHPValue('c0', $value);
+        if ($values === []) {
+            throw EmptyResultSet::create();
+        }
+
+        return $this->convertResultToPHPValue('c0', $values[0]);
     }
 
     public function getBuilder(): QueryBuilder
