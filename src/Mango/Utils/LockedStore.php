@@ -37,4 +37,9 @@ class LockedStore
 
         return $item->get();
     }
+
+    public function delete(string $key): void
+    {
+        $this->pool->deleteItem($key);
+    }
 }
