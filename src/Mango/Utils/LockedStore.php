@@ -12,6 +12,7 @@ use Symfony\Contracts\Cache\CallbackInterface;
 class LockedStore
 {
     public function __construct(
+        private string $prefix,
         private CacheItemPoolInterface $pool,
         private LockFactory $lockFactory,
     ) {
@@ -20,6 +21,8 @@ class LockedStore
     /** @param callable|CallbackInterface $callback */
     public function get(string $key, callable $callback): mixed
     {
+        $key = $this->prefix . $key;
+
         $lock = $this->lockFactory->createLock($key);
         if (! $lock->acquire(false)) {
             throw new LockConflictedException('Failed to acquire lock.');
@@ -40,6 +43,8 @@ class LockedStore
 
     public function delete(string $key): void
     {
+        $key = $this->prefix . $key;
+
         $this->pool->deleteItem($key);
     }
 }
