@@ -22,7 +22,7 @@ class Oid
     {
         $time = ((int) floor(microtime(true) * 1000)) - self::$startEpoch;
 
-        return sprintf('%010x%02x%03x', $time, self::nextProcessSeq(), self::nextRandomSeq());
+        return self::toCrockfordBase32B(sprintf('%010x%02x%03x', $time, self::nextProcessSeq(), self::nextRandomSeq()));
     }
 
     public static function toCrockfordBase32B(string $hex): string

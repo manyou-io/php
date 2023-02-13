@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use function count;
 use function in_array;
 
-#[AsTaggedItem(priority: -100)]
+#[AsTaggedItem(priority: -110)]
 class RemoveAnyOf implements SchemasProcessor
 {
     public function __invoke(ArrayObject $schemas): ArrayObject
