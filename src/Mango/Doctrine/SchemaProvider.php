@@ -11,12 +11,16 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Provider\SchemaProvider as SchemaProviderInterface;
 use InvalidArgumentException;
 use Manyou\Mango\Doctrine\Contract\TableProvider;
+use Manyou\Mango\Doctrine\Exception\RowNumUnmatched;
 use PDOException;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Throwable;
+use UnexpectedValueException;
 
 use function array_merge;
 use function is_string;
+use function strpos;
+use function substr;
 
 class SchemaProvider implements SchemaProviderInterface
 {
@@ -120,5 +124,31 @@ class SchemaProvider implements SchemaProviderInterface
         }
 
         return $this->connection->executeQuery($sql, array_merge(...$params), array_merge(...$types));
+    }
+
+    public function updateSetFrom(Query $update, Query $select, ?int $expectedRowNum = null): int
+    {
+        $sql       = $update->getSQL();
+        $selectSql = $select->getSQL();
+
+        if (false === $offset = strpos($selectSql, ' FROM ')) {
+            throw new UnexpectedValueException('Invalid select query.');
+        }
+
+        $sql .= substr($selectSql, $offset);
+
+        $params[] = $update->getParameters();
+        $params[] = $select->getParameters();
+
+        $types[] = $update->getParameterTypes();
+        $types[] = $select->getParameterTypes();
+
+        $rowNum = $this->connection->executeStatement($sql, array_merge(...$params), array_merge(...$types));
+
+        if ($rowNum !== ($expectedRowNum ?? $rowNum)) {
+            throw RowNumUnmatched::create($expectedRowNum, $rowNum);
+        }
+
+        return $rowNum;
     }
 }

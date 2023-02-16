@@ -302,6 +302,17 @@ class Query
         return $this;
     }
 
+    public function patch(string|array $from, array $data = []): ?self
+    {
+        foreach ($data as $column => $value) {
+            if ($value === null) {
+                unset($data[$column]);
+            }
+        }
+
+        return $data === [] ? null : $this->update($from, $data);
+    }
+
     /** @return string The from alias */
     private function addFrom(callable $builderCall, string|array $from): string
     {
