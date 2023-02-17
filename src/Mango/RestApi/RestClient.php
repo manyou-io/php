@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Utils;
+namespace Manyou\Mango\RestApi;
 
-use Prisma\Contracts\ApiRequest;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class RpcClient
+class RestClient implements Client
 {
     public function __construct(
         private HttpClientInterface $httpClient,
@@ -17,7 +16,7 @@ class RpcClient
     ) {
     }
 
-    public function request(ApiRequest $request): ResponseInterface
+    public function request(Request $request): ResponseInterface
     {
         return $this->httpClient->request(
             $request->getMethod(),
