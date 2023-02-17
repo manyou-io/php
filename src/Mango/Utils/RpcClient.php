@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Manyou\Mango\Utils;
 
-use ApiPlatform\Metadata\Post;
-use InvalidArgumentException;
-use ReflectionClass;
+use Prisma\Contracts\ApiRequest;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-
-use function substr;
 
 class RpcClient
 {
@@ -21,26 +17,12 @@ class RpcClient
     ) {
     }
 
-    public function request(object $request): ResponseInterface
+    public function request(ApiRequest $request): ResponseInterface
     {
         return $this->httpClient->request(
-            'POST',
-            $this->getPath($request),
-            ['json' => $this->normalizer->normalize($request)],
+            $request->getMethod(),
+            $request->getPath(),
+            ['json' => $this->normalizer->normalize($request, null, ['groups' => ['rest']])],
         );
-    }
-
-    private function getPath(object $request): string
-    {
-        $reflection = new ReflectionClass($request);
-
-        if ([] === $attributes = $reflection->getAttributes(Post::class)) {
-            throw new InvalidArgumentException('Post attribute not found.');
-        }
-
-        /** @var Post */
-        $attribute = $attributes[0]->newInstance();
-
-        return substr($attribute->getUriTemplate(), 1);
     }
 }
