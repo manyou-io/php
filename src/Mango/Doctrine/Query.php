@@ -302,6 +302,13 @@ class Query
         return $this;
     }
 
+    public function delete(string|array $from): self
+    {
+        $this->addFrom([$this->builder, 'delete'], $from);
+
+        return $this;
+    }
+
     public function patch(string|array $from, array $data = []): ?self
     {
         foreach ($data as $column => $value) {
