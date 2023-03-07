@@ -18,10 +18,13 @@ class RestClient implements Client
 
     public function request(Request $request): ResponseInterface
     {
-        return $this->httpClient->request(
-            $request->getMethod(),
-            $request->getPath(),
-            ['json' => $this->normalizer->normalize($request, null, ['groups' => ['rest']])],
-        );
+        $options = ['query' => $this->normalizer->normalize($request, null, ['groups' => ['query']])];
+
+        $options += match ($request->getMethod()) {
+            'POST', 'PUT', 'PATCH' => ['json' => $this->normalizer->normalize($request, null, ['groups' => ['rest']])],
+            default => [],
+        };
+
+        return $this->httpClient->request($request->getMethod(), $request->getPath(), $options);
     }
 }
