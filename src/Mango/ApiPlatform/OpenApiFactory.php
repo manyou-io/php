@@ -13,13 +13,11 @@ use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 #[AsDecorator('api_platform.openapi.factory')]
 class OpenApiFactory implements OpenApiFactoryInterface
 {
-    public const EMPTY_REQUEST_BODY = [
-        'content' => [
-            'application/json' => [
-                'schema' => [
-                    'type' => 'object',
-                    'nullable' => true,
-                ],
+    public const EMPTY_REQUEST_JSON = [
+        'application/json' => [
+            'schema' => [
+                'type' => 'object',
+                'nullable' => true,
             ],
         ],
     ];
