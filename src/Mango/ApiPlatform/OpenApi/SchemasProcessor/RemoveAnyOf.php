@@ -21,6 +21,11 @@ class RemoveAnyOf implements SchemasProcessor
                 foreach ($properties as $field => $property) {
                     $type     = $property['type'] ?? false;
                     $nullable = $property['nullable'] ?? false;
+
+                    if ($type === 'object' && isset($property['items'])) {
+                        unset($schemas[$name]['properties'][$field]['items']);
+                    }
+
                     if (
                         (in_array($type, ['string']) || ($type === 'object' && isset($property['properties'])))
                         && $nullable
