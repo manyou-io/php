@@ -670,6 +670,23 @@ class Query
             . ' ' . $operator;
     }
 
+    public function subQuery(string|array $x, self $subQuery, string $format = '%s'): string
+    {
+        [$tableAlias, $column] = $this->splitColumn($x);
+
+        $column = $this->selectTableMap[$tableAlias]->getColumn($column);
+
+        $values = $subQuery->builder->getParameters();
+        $types  = $subQuery->builder->getParameterTypes();
+
+        foreach ($values as $i => $value) {
+            $this->builder->createPositionalParameter($value, $types[$i] ?? null);
+        }
+
+        return $this->quotedTableAliasMap[$tableAlias] . '.' . $column->getQuotedName($this->platform)
+            . ' ' . sprintf($format, $subQuery->getSQL());
+    }
+
     public function comparisonArray(string|array $x, string $operator, array $y): string
     {
         [$tableAlias, $column] = $this->splitColumn($x);
