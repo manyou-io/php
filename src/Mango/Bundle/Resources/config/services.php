@@ -13,6 +13,7 @@ use Manyou\Mango\Operation\Doctrine\TableProvider\OperationsTable;
 use Manyou\Mango\Operation\Messenger\Middleware\OperationMiddware;
 use Manyou\Mango\Operation\Monolog\OperationLogHandler;
 use Manyou\Mango\Operation\Repository\OperationRepository;
+use Manyou\Mango\Serializer\MoneyNormalizer;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Level;
 use Monolog\Processor\PsrLogMessageProcessor;
@@ -69,4 +70,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->call('pushProcessor', [service('mango.monolog.processor.psr')]);
 
     $services->set(SerializerInitializerContextBuilder::class);
+
+    $services->set(MoneyNormalizer::class);
 };
