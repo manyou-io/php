@@ -20,7 +20,9 @@ class RemoveEnumGroups implements SchemasProcessor
     {
         foreach ($schemas as $name => $schema) {
             foreach ($schema['properties'] ?? [] as $property) {
-                $property->exchangeArray($this->alterProperty($property->getArrayCopy(), $schemas));
+                if ($property instanceof ArrayObject) {
+                    $property->exchangeArray($this->alterProperty($property->getArrayCopy(), $schemas));
+                }
             }
 
             $schemas[$name] = $schema;
