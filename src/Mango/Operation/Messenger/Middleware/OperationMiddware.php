@@ -65,44 +65,40 @@ class OperationMiddware implements MiddlewareInterface
 
     private function onConsume(Envelope $envelope, StackInterface $stack, OperationStamp $stamp): Envelope
     {
-        return $this->schema->getConnection()->transactional(function () use ($envelope, $stack, $stamp) {
+        $q = $this->schema->createQuery();
+
+        $rowNum = $q
+            ->update(OperationsTable::NAME, ['status' => OperationStatus::PROCESSING])
+            ->where($q->eq('id', $stamp->getId()), $q->eq('status', OperationStatus::QUEUEING))
+            ->executeStatement();
+
+        if ($rowNum !== 1) {
+            // not in a processable state
+            return $envelope;
+        }
+
+        try {
+            $envelope = $stack->next()->handle($envelope, $stack);
+        } catch (Throwable $e) {
             $q = $this->schema->createQuery();
-
-            $rowNum = $q
-                ->update(OperationsTable::NAME, ['status' => OperationStatus::PROCESSING])
-                ->where($q->eq('id', $stamp->getId()), $q->eq('status', OperationStatus::QUEUEING))
-                ->executeStatement();
-
-            if ($rowNum !== 1) {
-                // not in a processable state
-                return $envelope;
-            }
-
-            try {
-                $envelope = $this->schema->getConnection()->transactional(static function () use ($envelope, $stack) {
-                    return $stack->next()->handle($envelope, $stack);
-                });
-            } catch (Throwable $e) {
-                $q = $this->schema->createQuery();
-                $q->update(OperationsTable::NAME, ['status' => OperationStatus::FAILED])
-                    ->where($q->eq('id', $stamp->getId()))
-                    ->executeStatement();
-
-                $this->operationLogger->error($e->getMessage(), [
-                    OperationLogHandler::CONTEXT_KEY => $stamp->getId(),
-                    'exception' => $e,
-                ]);
-
-                return $envelope;
-            }
-
-            $q = $this->schema->createQuery();
-            $q->update(OperationsTable::NAME, ['status' => OperationStatus::COMPLETED])
+            $q->update(OperationsTable::NAME, ['status' => OperationStatus::FAILED])
                 ->where($q->eq('id', $stamp->getId()))
                 ->executeStatement();
 
+            $this->operationLogger->error($e->getMessage(), [
+                OperationLogHandler::CONTEXT_KEY => $stamp->getId(),
+                'exception' => $e,
+            ]);
+
             return $envelope;
-        });
+        }
+
+        $q = $this->schema->createQuery();
+        $q->update(OperationsTable::NAME, ['status' => OperationStatus::COMPLETED])
+            ->where($q->eq('id', $stamp->getId()))
+            ->executeStatement();
+
+        return $envelope;
     }
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope

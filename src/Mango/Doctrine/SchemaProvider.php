@@ -151,4 +151,9 @@ class SchemaProvider implements SchemaProviderInterface
 
         return $rowNum;
     }
+
+    public function getTableQuotedName(string $name): string
+    {
+        return $this->schema->getTable($name)->getQuotedName($this->connection->getDatabasePlatform());
+    }
 }
