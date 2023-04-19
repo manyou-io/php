@@ -16,6 +16,7 @@ use Manyou\Mango\Doctrine\SchemaProvider;
 use Manyou\Mango\Doctrine\Type\LogLevelType;
 use Manyou\Mango\Doctrine\Type\UlidType;
 use Manyou\Mango\Doctrine\Type\UuidType;
+use Manyou\Mango\MessageLoop\Messenger\Middleware\MessageLoopMiddleware;
 use Manyou\Mango\Operation\Doctrine\Type\OperationStatusType;
 use Manyou\Mango\Operation\Messenger\Middleware\OperationMiddware;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -33,6 +34,11 @@ class MangoBundle extends AbstractBundle
         $container->addCompilerPass(
             new MessengerMiddlewarePass(['id' => OperationMiddware::class]),
             priority: 1,
+        );
+
+        $container->addCompilerPass(
+            new MessengerMiddlewarePass(['id' => MessageLoopMiddleware::class]),
+            priority: 2,
         );
 
         $container->addCompilerPass(

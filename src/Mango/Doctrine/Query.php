@@ -95,6 +95,13 @@ class Query
         $this->platform = $this->connection->getDatabasePlatform();
     }
 
+    public function insertToUpdate(array $data = []): self
+    {
+        $q = $this->schema->createQuery();
+
+        return $q->update($this->insertInto->getName(), $data);
+    }
+
     public function insert(string $into, array $data): self
     {
         $this->insertInto = $table = $this->schema->getTable($into);
@@ -296,7 +303,7 @@ class Query
         $fromAlias = $this->addFrom([$this->builder, 'update'], $from);
 
         foreach ($data as $column => $value) {
-            $this->builder->set(...$this->bindUpdate($fromAlias, $column, $value));
+            $this->builder->set(...$this->bindUpdate($column, $value));
         }
 
         return $this;
@@ -751,6 +758,10 @@ class Query
 
     public function quoteColumn(string|array $column): string
     {
+        if (is_string($column) && isset($this->insertInto)) {
+            return $this->insertInto->getColumn($column)->getQuotedName($this->platform);
+        }
+
         [$tableAlias, $column] = $this->splitColumn($column);
 
         $column = $this->selectTableMap[$tableAlias]->getColumn($column);
@@ -771,9 +782,9 @@ class Query
         ];
     }
 
-    public function bindUpdate(string $tableAlias, string $column, $value): array
+    public function bindUpdate(string $column, $value): array
     {
-        $column = $this->selectTableMap[$tableAlias]->getColumn($column);
+        $column = $this->selectTableMap[$this->fromAlias]->getColumn($column);
         $type   = $column->getType();
 
         $this->builder->createPositionalParameter($value, $type);

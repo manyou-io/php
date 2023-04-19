@@ -17,7 +17,9 @@ use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Throwable;
 use UnexpectedValueException;
 
+use function array_map;
 use function array_merge;
+use function implode;
 use function is_string;
 use function strpos;
 use function substr;
@@ -155,5 +157,37 @@ class SchemaProvider implements SchemaProviderInterface
     public function getTableQuotedName(string $name): string
     {
         return $this->schema->getTable($name)->getQuotedName($this->connection->getDatabasePlatform());
+    }
+
+    public function onConflictDoUpdate(Query $insert, array $conflict, array $update, ?int $expectedRowNum = null)
+    {
+        $sql = $insert->getSQL();
+
+        $conflict = array_map(static fn ($n) => $insert->quoteColumn($n), $conflict);
+
+        $sql .= ' ON CONFLICT (' . implode(', ', $conflict) . ') DO UPDATE';
+
+        $update = $insert->insertToUpdate($update);
+
+        $updateSql = $update->getSQL();
+        if (false === $offset = strpos($updateSql, ' SET ')) {
+            throw new UnexpectedValueException('Invalid update query.');
+        }
+
+        $sql .= substr($updateSql, $offset);
+
+        $params[] = $insert->getParameters();
+        $params[] = $update->getParameters();
+
+        $types[] = $insert->getParameterTypes();
+        $types[] = $update->getParameterTypes();
+
+        $rowNum = $this->connection->executeStatement($sql, array_merge(...$params), array_merge(...$types));
+
+        if ($rowNum !== ($expectedRowNum ?? $rowNum)) {
+            throw RowNumUnmatched::create($expectedRowNum, $rowNum);
+        }
+
+        return $rowNum;
     }
 }
