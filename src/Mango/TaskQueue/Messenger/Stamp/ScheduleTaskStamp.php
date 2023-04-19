@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Operation\Messenger\Stamp;
+namespace Manyou\Mango\TaskQueue\Messenger\Stamp;
 
 use Closure;
 use Symfony\Component\Messenger\Stamp\NonSendableStampInterface;
 use Symfony\Component\Uid\Ulid;
 
-class CreateOperationStamp implements NonSendableStampInterface
+class ScheduleTaskStamp implements NonSendableStampInterface
 {
     public function __construct(private Closure $callback)
     {

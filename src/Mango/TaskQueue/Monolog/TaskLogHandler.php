@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Operation\Monolog;
+namespace Manyou\Mango\TaskQueue\Monolog;
 
 use Manyou\Mango\Doctrine\SchemaProvider;
-use Manyou\Mango\Operation\Doctrine\TableProvider\OperationLogsTable;
+use Manyou\Mango\TaskQueue\Doctrine\Table\TaskLogsTable;
 use Monolog\Handler\AbstractHandler;
 use Monolog\Handler\FormattableHandlerInterface;
 use Monolog\Handler\FormattableHandlerTrait;
@@ -13,11 +13,11 @@ use Monolog\Level;
 use Monolog\LogRecord;
 use Symfony\Component\Uid\Ulid;
 
-class OperationLogHandler extends AbstractHandler implements FormattableHandlerInterface
+class TaskLogHandler extends AbstractHandler implements FormattableHandlerInterface
 {
     use FormattableHandlerTrait;
 
-    public const CONTEXT_KEY = 'operation_id';
+    public const CONTEXT_KEY = 'task_id';
 
     public function __construct(
         private SchemaProvider $schema,
@@ -33,17 +33,17 @@ class OperationLogHandler extends AbstractHandler implements FormattableHandlerI
             return false;
         }
 
-        $operationId = $record->context[self::CONTEXT_KEY] ?? null;
+        $taskId = $record->context[self::CONTEXT_KEY] ?? null;
 
-        if (! $operationId instanceof Ulid) {
+        if (! $taskId instanceof Ulid) {
             return false;
         }
 
         $record->formatted = $this->getFormatter()->format($record);
 
-        $rowNum = $this->schema->createQuery()->insert(OperationLogsTable::NAME, [
+        $rowNum = $this->schema->createQuery()->insert(TaskLogsTable::NAME, [
             'id' => new Ulid(Ulid::generate($record->datetime)),
-            'operation_id' => $operationId,
+            'task_id' => $taskId,
             'level' => $record->level,
             'message' => $record->formatted['message'],
             'context' => $record->formatted['context'],

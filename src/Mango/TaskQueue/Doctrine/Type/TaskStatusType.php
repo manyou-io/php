@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Operation\Doctrine\Type;
+namespace Manyou\Mango\TaskQueue\Doctrine\Type;
 
 use Doctrine\DBAL\Types\Type;
 use Manyou\Mango\Doctrine\Type\BackedEnumType;
-use Manyou\Mango\Operation\Enum\OperationStatus;
+use Manyou\Mango\TaskQueue\Enum\TaskStatus;
 
-class OperationStatusType extends Type
+class TaskStatusType extends Type
 {
     use BackedEnumType;
 
-    public const NAME = 'operation_status';
+    public const NAME = 'task_status';
 
     public function getName(): string
     {
@@ -21,6 +21,6 @@ class OperationStatusType extends Type
 
     private function getEnumClass(): string
     {
-        return OperationStatus::class;
+        return TaskStatus::class;
     }
 }

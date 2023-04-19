@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Operation\Messenger\Stamp;
+namespace Manyou\Mango\TaskQueue\Messenger\Stamp;
 
 use Symfony\Component\Messenger\Stamp\StampInterface;
 use Symfony\Component\Uid\Ulid;
 
-class OperationStamp implements StampInterface
+class TaskStamp implements StampInterface
 {
     public function __construct(private Ulid $id)
     {

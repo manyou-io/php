@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Operation\Enum;
+namespace Manyou\Mango\TaskQueue\Enum;
 
-enum OperationStatus: string
+enum TaskStatus: string
 {
     case QUEUEING   = 'queueing';
     case PROCESSING = 'processing';
