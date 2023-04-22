@@ -57,7 +57,7 @@ class Market implements Stringable
     {
         if ($tz === null) {
             if (! isset(self::MAPPINGS[$name])) {
-                throw new InvalidArgumentException("Market ${name} is unknown and no time zone provided");
+                throw new InvalidArgumentException("Market {$name} is unknown and no time zone provided");
             }
 
             $tz = new DateTimeZone(self::MAPPINGS[$name]);
@@ -87,7 +87,7 @@ class Market implements Stringable
         $today            = $this->getToday($today);
         $invert           = $offset < 0 ? 1 : 0;
         $offset           = (string) abs($offset);
-        $interval         = new DateInterval("P${offset}D");
+        $interval         = new DateInterval("P{$offset}D");
         $interval->invert = $invert;
 
         return $today->sub($interval);

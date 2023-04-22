@@ -16,7 +16,6 @@ use Manyou\Mango\TaskQueue\Doctrine\Table\TaskLogsTable;
 use Manyou\Mango\TaskQueue\Doctrine\Table\TasksTable;
 use Manyou\Mango\TaskQueue\Messenger\Middleware\TaskQueueMiddware;
 use Manyou\Mango\TaskQueue\Monolog\TaskLogHandler;
-use Manyou\Mango\TaskQueue\Repository\OperationRepository;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Level;
 use Monolog\Processor\PsrLogMessageProcessor;
@@ -39,7 +38,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TasksTable::class);
     $services->set(TaskLogsTable::class);
     $services->set(TaskQueueMiddware::class);
-    $services->set(OperationRepository::class)->public();
     $services->set(MessageLoopRepository::class)->public();
     $services->set(MessageLoopsTable::class);
     $services->set(MessageLoopMiddleware::class);
