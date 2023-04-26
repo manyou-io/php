@@ -6,10 +6,10 @@ namespace Manyou\Mango\Doctrine\Exception;
 
 use RuntimeException;
 
-class EmptyResultSet extends RuntimeException
+class RecordsNotFound extends RuntimeException
 {
     public static function create()
     {
-        return new self('Empty result set.');
+        return new self('Records not found.');
     }
 }
