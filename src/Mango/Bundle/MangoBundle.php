@@ -16,6 +16,7 @@ use Manyou\Mango\Doctrine\SchemaProvider;
 use Manyou\Mango\Doctrine\Type\LogLevelType;
 use Manyou\Mango\Doctrine\Type\UlidType;
 use Manyou\Mango\Doctrine\Type\UuidType;
+use Manyou\Mango\MessageLoop\MessageLoopInterface;
 use Manyou\Mango\MessageLoop\Messenger\Middleware\MessageLoopMiddleware;
 use Manyou\Mango\TaskQueue\Doctrine\Type\TaskStatusType;
 use Manyou\Mango\TaskQueue\Messenger\Middleware\TaskQueueMiddware;
@@ -30,6 +31,10 @@ class MangoBundle extends AbstractBundle
         $container
             ->registerForAutoconfiguration(TableProvider::class)
             ->addTag('mango.doctrine.table_provider');
+
+        $container
+            ->registerForAutoconfiguration(MessageLoopInterface::class)
+            ->addTag('mango.message_loop');
 
         $container->addCompilerPass(
             new MessengerMiddlewarePass(['id' => TaskQueueMiddware::class]),

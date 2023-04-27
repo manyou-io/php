@@ -18,6 +18,8 @@ class MoneyNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
             return $data;
         }
 
+        // TODO: throw exception if amount and currency are not set
+
         return new Money($data['amount'], new Currency($data['currency']));
     }
 
