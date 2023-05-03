@@ -30,6 +30,14 @@ class MessageLoopRepository
         );
     }
 
+    public function deleteLoop(string $key): void
+    {
+        $q = $this->schema->createQuery();
+        $q->delete(MessageLoopsTable::NAME)
+            ->where($q->eq('key', $key))
+            ->executeStatement();
+    }
+
     public function isValidLoop(string $key, Ulid $loopId): bool
     {
         $q = $this->schema->createQuery();

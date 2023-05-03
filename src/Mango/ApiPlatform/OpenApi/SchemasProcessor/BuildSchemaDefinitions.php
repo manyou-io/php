@@ -14,7 +14,9 @@ trait BuildSchemaDefinitions
 {
     use SetSchemaDefinitions;
 
-    private SchemaFactoryInterface $jsonSchemaFactory;
+    public function __construct(private SchemaFactoryInterface $jsonSchemaFactory)
+    {
+    }
 
     private function buildSchema(array $params): array
     {

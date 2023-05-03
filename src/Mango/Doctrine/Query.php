@@ -19,7 +19,7 @@ use ErrorException;
 use Generator;
 use InvalidArgumentException;
 use LogicException;
-use Manyou\Mango\Doctrine\Exception\EmptyResultSet;
+use Manyou\Mango\Doctrine\Exception\RecordsNotFound;
 use Manyou\Mango\Doctrine\Exception\RowNumUnmatched;
 use RuntimeException;
 
@@ -642,7 +642,7 @@ class Query
         $values = $this->getQueryResult()->fetchFirstColumn();
 
         if ($values === []) {
-            throw EmptyResultSet::create();
+            throw RecordsNotFound::create();
         }
 
         return $this->convertResultToPHPValue('c0', $values[0]);
