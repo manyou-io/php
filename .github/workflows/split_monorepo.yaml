@@ -1,0 +1,82 @@
+name: Split Monorepo
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+jobs:
+  packages_split:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # define package to repository map
+        package:
+          - local_path: bing-homepage
+            split_repository: bing-homepage
+          - local_path: leancloud
+            split_repository: leancloud
+          - local_path: mango
+            split_repository: mango
+          - local_path: promise-http-client
+            split_repository: promise-http-client
+          - local_path: remove-data-collector-bundle
+            split_repository: remove-data-collector-bundle
+          - local_path: workerman-symfony-runtime
+            split_repository: workerman-symfony-runtime
+          - local_path: aria2
+            split_repository: aria2
+          - local_path: x509-chain-verifier
+            split_repository: x509-chain-verifier
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # no tag
+      - if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: "symplify/monorepo-split-github-action@2.1"
+        with:
+          branch: main
+
+          # ↓ split "<local_path>" directory
+          package_directory: "src/${{ matrix.package.local_path }}"
+
+          # ↓ into "https://github.com/manyou-io/<split_repository>" repository
+          repository_organization: "manyou-io"
+          repository_name: "${{ matrix.package.split_repository }}"
+
+          # [optional, with "github.com" as default]
+          # repository_host: github.com
+
+          # ↓ the user signed under the split commit
+          user_name: "Brent, Bohan Yang"
+          user_email: "brent@manyou.io"
+
+      # with tag
+      - if: "startsWith(github.ref, 'refs/tags/')"
+        uses: "symplify/monorepo-split-github-action@2.1"
+        with:
+          branch: main
+
+          tag: ${GITHUB_REF#refs/tags/}
+
+          # ↓ split "<local_path>" directory
+          package_directory: "src/${{ matrix.package.local_path }}"
+
+          # ↓ into "https://github.com/manyou-io/<split_repository>" repository
+          repository_organization: "manyou-io"
+          repository_name: "${{ matrix.package.split_repository }}"
+
+          # [optional, with "github.com" as default]
+          repository_host: github.com
+
+          # ↓ the user signed under the split commit
+          user_name: "Brent, Bohan Yang"
+          user_email: "brent@manyou.io"
