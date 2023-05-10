@@ -27,8 +27,8 @@ jobs:
             split_repository: mango
           - local_path: promise-http-client
             split_repository: promise-http-client
-          - local_path: remove-data-collector-bundle
-            split_repository: remove-data-collector-bundle
+          - local_path: clear-service-tags-bundle
+            split_repository: clear-service-tags-bundle
           - local_path: workerman-symfony-runtime
             split_repository: workerman-symfony-runtime
           - local_path: aria2
