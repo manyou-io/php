@@ -21,8 +21,8 @@ jobs:
         package:
           - local_path: packages/bing-homepage
             split_repository: bing-homepage
-          - local_path: packages/leancloud
-            split_repository: leancloud
+          - local_path: packages/leanstorage
+            split_repository: leanstorage
           - local_path: packages/mango
             split_repository: mango
           - local_path: packages/promise-http-client

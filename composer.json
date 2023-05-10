@@ -48,7 +48,7 @@
         "psr-4": {
             "Manyou\\Aria2\\": "packages/aria2/",
             "Manyou\\BingHomepage\\": "packages/bing-homepage/",
-            "Manyou\\LeanStorage\\": "packages/leancloud/",
+            "Manyou\\LeanStorage\\": "packages/leanstorage/",
             "Manyou\\Mango\\": "packages/mango/",
             "Manyou\\PromiseHttpClient\\": "packages/promise-http-client/",
             "Manyou\\ClearServiceTagsBundle\\": "packages/clear-service-tags-bundle/",
@@ -70,7 +70,7 @@
     "replace": {
         "manyou/aria2": "self.version",
         "manyou/bing-homepage": "self.version",
-        "manyou/leancloud": "self.version",
+        "manyou/leanstorage": "self.version",
         "manyou/mango": "self.version",
         "manyou/promise-http-client": "self.version",
         "manyou/clear-service-tags-bundle": "self.version",
