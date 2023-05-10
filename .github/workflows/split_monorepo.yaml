@@ -19,21 +19,21 @@ jobs:
       matrix:
         # define package to repository map
         package:
-          - local_path: bing-homepage
+          - local_path: packages/bing-homepage
             split_repository: bing-homepage
-          - local_path: leancloud
+          - local_path: packages/leancloud
             split_repository: leancloud
-          - local_path: mango
+          - local_path: packages/mango
             split_repository: mango
-          - local_path: promise-http-client
+          - local_path: packages/promise-http-client
             split_repository: promise-http-client
-          - local_path: clear-service-tags-bundle
+          - local_path: packages/clear-service-tags-bundle
             split_repository: clear-service-tags-bundle
-          - local_path: workerman-symfony-runtime
+          - local_path: packages/workerman-symfony-runtime
             split_repository: workerman-symfony-runtime
-          - local_path: aria2
+          - local_path: packages/aria2
             split_repository: aria2
-          - local_path: x509-chain-verifier
+          - local_path: packages/x509-chain-verifier
             split_repository: x509-chain-verifier
 
     steps:
@@ -46,7 +46,7 @@ jobs:
           branch: main
 
           # ↓ split "<local_path>" directory
-          package_directory: "src/${{ matrix.package.local_path }}"
+          package_directory: "${{ matrix.package.local_path }}"
 
           # ↓ into "https://github.com/manyou-io/<split_repository>" repository
           repository_organization: "manyou-io"
@@ -68,7 +68,7 @@ jobs:
           tag: ${GITHUB_REF#refs/tags/}
 
           # ↓ split "<local_path>" directory
-          package_directory: "src/${{ matrix.package.local_path }}"
+          package_directory: "${{ matrix.package.local_path }}"
 
           # ↓ into "https://github.com/manyou-io/<split_repository>" repository
           repository_organization: "manyou-io"
