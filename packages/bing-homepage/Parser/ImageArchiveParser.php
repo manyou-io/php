@@ -32,7 +32,7 @@ class ImageArchiveParser implements ParserInterface
         $matches = [];
 
         if (preg_match($regex, $copyright, $matches) !== 1) {
-            throw new RuntimeException("Failed to parse copyright string ${copyright}");
+            throw new RuntimeException("Failed to parse copyright string {$copyright}");
         }
 
         array_shift($matches);

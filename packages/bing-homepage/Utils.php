@@ -18,7 +18,7 @@ class Utils
     {
         $tz     = $d->format('e');
         $offset = $d->format('P');
-        $tz     = $tz === $offset ? " ${tz}" : " ${tz} (${offset})";
+        $tz     = $tz === $offset ? " {$tz}" : " {$tz} ({$offset})";
 
         return $d->format('Y-m-d H:i:' . self::formatSeconds($d->format('s'), $d->format('u'))) . $tz;
     }
