@@ -85,7 +85,7 @@ class Utils
         $matches = [];
 
         if (preg_match($regex, $urlBase, $matches) !== 1) {
-            throw new InvalidArgumentException("Failed to parse URL base ${urlBase}");
+            throw new InvalidArgumentException("Failed to parse URL base {$urlBase}");
         }
 
         return $matches;
