@@ -5,3 +5,4 @@
 /.phpcs-cache
 /phpcs.xml
 /.env.local
+/.env.test.local
