@@ -48,32 +48,39 @@
         "psr-4": {
             "Manyou\\Aria2\\": "packages/aria2/",
             "Manyou\\BingHomepage\\": "packages/bing-homepage/",
+            "Manyou\\ClearServiceTagsBundle\\": "packages/clear-service-tags-bundle/",
             "Manyou\\LeanStorage\\": "packages/leanstorage/",
             "Manyou\\Mango\\": "packages/mango/",
             "Manyou\\PromiseHttpClient\\": "packages/promise-http-client/",
-            "Manyou\\ClearServiceTagsBundle\\": "packages/clear-service-tags-bundle/",
             "Manyou\\WorkermanSymfonyRuntime\\": "packages/workerman-symfony-runtime/",
             "Manyou\\X509ChainVerifier\\": "packages/x509-chain-verifier/"
         }
     },
     "require-dev": {
         "doctrine/coding-standard": "^10.0",
+        "ext-intl": "*",
         "lcobucci/jwt": "^4.0",
+        "moneyphp/money": "^4.1",
         "slevomat/coding-standard": "^8.6",
+        "spomky-labs/lexik-jose-bridge": "^4.0",
         "squizlabs/php_codesniffer": "^3.7",
+        "symfony/cache": "^6.3",
         "symfony/dotenv": "^6.3",
+        "symfony/lock": "^6.3",
         "symfony/phpunit-bridge": "^6.3",
         "symfony/process": "^6.3",
+        "symfony/serializer": "^6.3",
+        "symfony/validator": "^6.3",
         "symfony/yaml": "^6.3",
         "symplify/monorepo-builder": "^11.1"
     },
     "replace": {
         "manyou/aria2": "self.version",
         "manyou/bing-homepage": "self.version",
+        "manyou/clear-service-tags-bundle": "self.version",
         "manyou/leanstorage": "self.version",
         "manyou/mango": "self.version",
         "manyou/promise-http-client": "self.version",
-        "manyou/clear-service-tags-bundle": "self.version",
         "manyou/workerman-symfony-runtime": "self.version",
         "manyou/x509-chain-verifier": "self.version"
     },
