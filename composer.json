@@ -9,8 +9,8 @@
         }
     ],
     "require": {
-        "api-platform/core": "^3.0",
         "chubbyphp/chubbyphp-workerman-request-handler": "^2.0",
+        "symfony/serializer": "^6.3",
         "doctrine/dbal": "^3.5.1",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
