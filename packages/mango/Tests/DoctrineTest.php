@@ -115,8 +115,8 @@ class DoctrineTest extends KernelTestCase
         ], $q->fetchAllAssociative());
 
         $q = $schema->createQuery();
-        $q->selectFrom(GroupTable::NAME)
-            ->where($q->eq('id', 6), $q->eq('orderString', 'bulk alias bar'));
+        $q->from(GroupTable::NAME)->select()
+            ->where(id: 6, orderString: 'bulk alias bar');
         $this->assertEqualsCanonicalizing([
             [GroupTable::NAME => ['id' => 6, 'orderString' => 'bulk alias bar']],
         ], $q->fetchAllAssociative());
@@ -190,9 +190,11 @@ class DoctrineTest extends KernelTestCase
         ], $q->fetchAllAssociative());
 
         $q = $schema->createQuery();
-        $q->selectFrom([PostsTable::NAME, 'p'], 'title')
-            ->joinOn([GroupTable::NAME, 'g'], 'id', 'group_id', null)
-            ->where($q->eq('id', 2));
+        $q->from(PostsTable::NAME, 'p')
+            ->select('title')
+            ->where(title: 'post 2')
+            ->addInnerJoin([GroupTable::NAME, 'g'], ['group_id', 'id'])
+            ->where(id: 2);
         $this->assertEqualsCanonicalizing([
             [
                 'p' => ['title' => 'post 2'],
