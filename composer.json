@@ -51,7 +51,7 @@
             "Manyou\\BingHomepage\\": "packages/bing-homepage/",
             "Manyou\\ClearServiceTagsBundle\\": "packages/clear-service-tags-bundle/",
             "Manyou\\LeanStorage\\": "packages/leanstorage/",
-            "Manyou\\Mango\\": "packages/mango/",
+            "Mango\\": "packages/mango/",
             "Manyou\\PromiseHttpClient\\": "packages/promise-http-client/",
             "Manyou\\WorkermanSymfonyRuntime\\": "packages/workerman-symfony-runtime/",
             "Manyou\\X509ChainVerifier\\": "packages/x509-chain-verifier/"

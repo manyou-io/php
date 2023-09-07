@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Manyou\Mango\Jose;
+namespace Mango\Jose;
 
 use Jose\Component\Checker\ClaimCheckerManager;
 use Jose\Component\Checker\HeaderCheckerManager;

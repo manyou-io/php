@@ -1,7 +1,0 @@
-[
-    {
-        "location": "Manyou\\Mango\\Tests\\DoctrineTest::setUpBeforeClass",
-        "message": "Subscribing to onSchemaCreateTable events is deprecated. (AbstractPlatform.php:2137 called by AbstractPlatform.php:2056, https://github.com/doctrine/dbal/issues/5784, package doctrine/dbal)",
-        "count": 2
-    }
-]
