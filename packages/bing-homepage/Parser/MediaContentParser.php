@@ -24,7 +24,7 @@ class MediaContentParser implements ParserInterface
         $trim      = '/^[\pZ\pC]+|[\pZ\pC]+$/u';
         $copyright = preg_replace($trim, '', $copyright);
 
-        $regex   = '/^\x{00A9}\pZ*(.+?)$/u';
+        $regex   = '/\x{00A9}\pZ*(.+?)$/u';
         $matches = [];
 
         if (preg_match($regex, $copyright, $matches) !== 1) {

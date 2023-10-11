@@ -28,7 +28,7 @@ class ImageArchiveParser implements ParserInterface
         $trim      = '/^[\pZ\pC]+|[\pZ\pC]+$/u';
         $copyright = preg_replace($trim, '', $copyright);
 
-        $regex   = '/^(.+?)\pZ*(?:\(|\x{FF08})\pZ*\x{00A9}\pZ*(.+?)\pZ*(?:\)|\x{FF09})$/u';
+        $regex   = '/^(.+?)\pZ*(?:\(|\x{FF08})\pZ*\x{00A9}\pZ*(.+?)\pZ*(?:\)|\x{FF09})/u';
         $matches = [];
 
         if (preg_match($regex, $copyright, $matches) !== 1) {
