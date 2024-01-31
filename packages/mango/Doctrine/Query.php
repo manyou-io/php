@@ -478,7 +478,7 @@ class Query
     public function returning(?string ...$selects): self
     {
         $select = $this->schema->createQuery()
-            ->from($this->selectTableMap[$this->fromAlias]->getName())
+            ->from($this->selectTableMap[$this->fromAlias]->getName(), $this->fromAlias)
             ->select(...$selects);
         $selectSql = $select->getSQL();
 
