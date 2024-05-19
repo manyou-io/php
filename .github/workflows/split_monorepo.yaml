@@ -78,5 +78,5 @@ jobs:
           repository_host: github.com
 
           # ↓ the user signed under the split commit
-          user_name: "Brent, Bohan Yang"
-          user_email: "brent@manyou.io"
+          user_name: "Bohan Yang"
+          user_email: "8384161+bohanyang@users.noreply.github.com"
