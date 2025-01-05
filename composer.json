@@ -23,43 +23,26 @@
         "psr/http-message": "^1.0|^2.0",
         "psr/http-server-handler": "^1.0",
         "psr/log": "^2.0|^3.0",
-        "symfony/config": "^6.4|^7.0",
-        "symfony/dependency-injection": "^6.4|^7.0",
-        "symfony/event-dispatcher": "^6.4|^7.0",
-        "symfony/framework-bundle": "^6.4|^7.0",
-        "symfony/http-client": "^6.4|^7.0",
+        "symfony/config": "^7.0",
+        "symfony/dependency-injection": "^7.0",
+        "symfony/event-dispatcher": "^7.0",
+        "symfony/framework-bundle": "^7.0",
+        "symfony/http-client": "^7.0",
         "symfony/http-client-contracts": "^3.0",
         "symfony/http-client-implementation": "^3.0",
-        "symfony/http-foundation": "^6.4|^7.0",
-        "symfony/http-kernel": "^6.4|^7.0",
+        "symfony/http-foundation": "^7.0",
+        "symfony/http-kernel": "^7.0",
         "symfony/monolog-bundle": "^3.8",
-        "symfony/psr-http-message-bridge": "^2.3|^6.4|^7.0",
-        "symfony/runtime": "^6.4|^7.0",
-        "symfony/security-http": "^6.4|^7.0",
-        "symfony/serializer": "^6.4|^7.0",
-        "symfony/uid": "^6.4|^7.0",
+        "symfony/psr-http-message-bridge": "^2.3|^7.0",
+        "symfony/runtime": "^7.0",
+        "symfony/security-http": "^7.0",
+        "symfony/serializer": "^7.0",
+        "symfony/uid": "^7.0",
         "symplify/monorepo-builder": "^11.2",
         "thecodingmachine/safe": "^2.4",
         "web-token/jwt-bundle": "^3.3",
         "web-token/jwt-library": "^3.3",
         "workerman/workerman": "^4.0"
-    },
-    "autoload": {
-        "exclude-from-classmap": [
-            "packages/mango/Tests/",
-            "packages/promise-http-client/Tests/",
-            "packages/x509-chain-verifier/Tests/"
-        ],
-        "psr-4": {
-            "Mango\\": "packages/mango/",
-            "Manyou\\Aria2\\": "packages/aria2/",
-            "Manyou\\BingHomepage\\": "packages/bing-homepage/",
-            "Manyou\\ClearServiceTagsBundle\\": "packages/clear-service-tags-bundle/",
-            "Manyou\\LeanStorage\\": "packages/leanstorage/",
-            "Manyou\\PromiseHttpClient\\": "packages/promise-http-client/",
-            "Manyou\\WorkermanSymfonyRuntime\\": "packages/workerman-symfony-runtime/",
-            "Manyou\\X509ChainVerifier\\": "packages/x509-chain-verifier/"
-        }
     },
     "require-dev": {
         "doctrine/coding-standard": "^12.0",
@@ -68,9 +51,9 @@
         "monolog/monolog": "^3.0",
         "symfony/dotenv": "^6.4|^7.0",
         "symfony/phpunit-bridge": "^6.4|^7.0",
-        "symfony/process": "^6.4|^7.0",
-        "symfony/validator": "^6.4|^7.0",
-        "symfony/yaml": "^6.4|^7.0",
+        "symfony/process": "^7.0",
+        "symfony/validator": "^7.0",
+        "symfony/yaml": "^7.0",
         "twig/twig": "^3.0"
     },
     "replace": {
@@ -83,12 +66,29 @@
         "manyou/workerman-symfony-runtime": "self.version",
         "manyou/x509-chain-verifier": "self.version"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Mango\\": "packages/mango/",
+            "Manyou\\Aria2\\": "packages/aria2/",
+            "Manyou\\BingHomepage\\": "packages/bing-homepage/",
+            "Manyou\\ClearServiceTagsBundle\\": "packages/clear-service-tags-bundle/",
+            "Manyou\\LeanStorage\\": "packages/leanstorage/",
+            "Manyou\\PromiseHttpClient\\": "packages/promise-http-client/",
+            "Manyou\\WorkermanSymfonyRuntime\\": "packages/workerman-symfony-runtime/",
+            "Manyou\\X509ChainVerifier\\": "packages/x509-chain-verifier/"
+        },
+        "exclude-from-classmap": [
+            "packages/mango/Tests/",
+            "packages/promise-http-client/Tests/",
+            "packages/x509-chain-verifier/Tests/"
+        ]
+    },
     "config": {
         "allow-plugins": {
             "symfony/runtime": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
